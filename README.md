@@ -1,78 +1,121 @@
-# Wifi attendance app made in Flutter and Django submission for Hack4India hackathon by 3Musketeers
+# 📶 Wi-Fi Attendance App
 
-# Frontend
-## Overview
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Backend: Django](https://img.shields.io/badge/Backend-Django%204.1-blue.svg)
+![Frontend: Android](https://img.shields.io/badge/Frontend-Android%20App-green.svg)
+![API](https://img.shields.io/badge/API-RESTful-orange.svg)
 
-This code is the main.dart file for a Flutter application. It sets up the configuration and structure of the application, including the routes and themes. The code imports necessary dependencies, such as firebase_options.dart and the different screen files (home_page.dart, login_page.dart, signup_page.dart, and splash_screen.dart), as well as other Flutter-related packages.
+---
 
-## Main Function
+## 📋 Project Overview
 
-The main function is defined as an asynchronous function that initializes Firebase and then runs the Flutter application. It ensures that the Flutter bindings are initialized using `WidgetsFlutterBinding.ensureInitialized()`, and then it initializes Firebase using `Firebase.initializeApp()` with the default Firebase options for the current platform. Finally, it runs the `MyApp` widget.
+**Wi-Fi Attendance App** is a complete attendance tracking system built with a **Django REST API backend** and an **Android frontend**. It allows students or employees to mark attendance automatically when connected to authorized Wi-Fi networks.
 
-## MyApp Class
+The system is designed to reduce proxy attendance, ensure presence validation via Wi-Fi networks, and simplify record management.
 
-The `MyApp` class is a stateless widget that serves as the root of the application. It extends the `StatelessWidget` class and overrides the `build` method. In the `build` method, a `MaterialApp` widget is returned, which represents the entire Flutter application.
+---
 
-## MaterialApp Widget
+## 🌐 Key Features
 
-The `MaterialApp` widget has various properties and configurations. The `title` property sets the title of the application to "Flutter Demo". The `theme` property defines the theme for the application, including the color scheme, material3 usage, and the app bar theme.
+- 📶 Wi-Fi network check for trusted location authentication
+- ✅ Attendance logging via mobile app when connected to valid Wi-Fi
+- 🔐 Secure login via Django's authentication system
+- 🗃️ Admin dashboard for attendance record management
+- 🔌 API-based communication between Android app and Django backend
+- 🧪 SQLite for backend data storage
 
-The color scheme is set using `ColorScheme.fromSeed` with a seedColor of `Colors.deepPurple`. This sets the primary color for the application to deep purple.
+---
 
-The `useMaterial3` property is set to `true`, indicating that the application should use the Material3 design system.
+## 🛠️ Tech Stack
 
-The `appBarTheme` property configures the theme for the app bar. It sets the background color to indigo, centers the title, and defines the icon and title text styles.
+| Layer     | Technology                     |
+|-----------|--------------------------------|
+| Frontend  | Android (Java/Kotlin)          |
+| Backend   | Django 4.1, Django REST Framework |
+| Database  | SQLite                         |
+| DevOps    | Gradle for Android, pipenv/venv for Django |
 
-The `routes` property is a map that defines the routes for the application. Each route is associated with a specific screen widget. The routes defined in the code include '/', '/login', '/signup', and '/home', which map to the SplashScreen, LoginPage, SignUpPage, and HomePage widgets, respectively.
+---
 
-## Additional Details
+## 📂 Project Structure
 
-- The code initializes Firebase using the default Firebase options for the current platform.
-- The `MyApp` class is a stateless widget that serves as the root of the application.
-- The `MaterialApp` widget has various properties and configurations, including the color scheme, material3 usage, and the app bar theme.
-- The `routes` property is a map that defines the routes for the application.
-- The code sets up the basic structure and configuration of a Flutter application, including the initialization of Firebase, defining routes for different screens, and configuring the theme of the application.
+```
 
+Wi-Fi-Attendance-App/
+├── backend/
+│   ├── attendance/                     # Django project root
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   │   └── asgi.py
+│   ├── attendance\_app/                # Custom app for attendance
+│   │   └── urls.py, models.py, views.py
+│   └── manage.py
+├── android\_app/
+│   ├── app/src/...                    # Android frontend code (Java/Kotlin)
+│   ├── build.gradle
+│   ├── gradle.properties
+│   └── settings.gradle
 
-# Backend
-## Overview
-This Python script defines an API view for managing attendance sessions using the Django REST framework. The API view provides three actions: starting a new attendance session, ending an active attendance session, and storing additional data for an attendance session. The script retrieves data from the HTTP request and processes it accordingly. 
+````
 
-## Dependencies
-The script requires the following dependencies:
-- Django
-- Django REST framework
+---
 
-## Usage
-To use the API view, you can send HTTP requests to the appropriate endpoint. The available endpoints are:
-- `/attendance/start/`: Starts a new attendance session.
-- `/attendance/end/`: Ends an active attendance session and returns a list of active students.
-- `/attendance/data/`: Stores additional data for an attendance session.
+## ▶️ How to Run
 
-The expected format of the request data is a JSON object with the following fields:
-- `action`: The action to perform (`on`, `off`, or `custom`).
-- `username`: The username of the student.
-- `session_id`: The ID of the attendance session.
-- `wifi_id`: The ID of the student's WiFi connection.
-- `date`: The date of the attendance record.
-- `checkIn`: The time of the attendance record.
+### 🖥 Django Backend
 
-## Logic
-The script defines an `AttendanceSessionView` class that extends the `APIView` class from the Django REST framework. The `post` method of the `AttendanceSessionView` class handles HTTP POST requests to the API view.
+1. **Navigate to project root**:
+```bash
+cd Wi-Fi-Attendance-App/backend
+````
 
-The `post` method first retrieves the `action` field from the request data. If the `action` is `on`, a new attendance session is created and a response is returned with the ID of the new session. If the `action` is `off`, the active attendance session is ended, and a list of active students is returned. If the `action` is `custom`, additional data is stored for the attendance session.
+2. **Create virtual environment and install dependencies**:
 
-If the `action` is `off`, the method retrieves the `wifi_id` and `session_id` fields from the request data. It then queries the `StudentData` model to retrieve all records for the specified `wifi_id` and `session_id`. If multiple records are found, a list of active students is created and returned in the response. If no records are found, an error response is returned. If only one record is found, the response includes the username, date, and check-in time of the student.
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install django djangorestframework
+```
 
-If the `action` is `custom`, the method retrieves the `username`, `session_id`, `wifi_id`, `date`, and `checkIn` fields from the request data. It then creates a new `StudentData` record with the specified data.
+3. **Run server**:
 
-If an error occurs during the processing of the request, an appropriate error response is returned.
+```bash
+python manage.py migrate
+python manage.py runserver
+```
 
-### Additional Details
-- The script uses the `timezone` module from Django to get the current time.
-- The `AttendanceSession` model has two fields: `start_time` and `is_active`. The `start_time` field stores the start time of the attendance session, and the `is_active` field indicates whether the session is currently active.
-- The `StudentData` model has five fields: `username`, `session_id`, `wifi_id`, `date`, and `checkIn`. These fields store the attendance data for each student. 
-- The `AttendanceSessionView` class uses the `Response` and `status` classes from the Django REST framework to return HTTP responses with appropriate status codes. 
-- The `AttendanceSessionView` class uses `try-except` blocks to handle exceptions that may occur during the processing of the request. 
-- The `AttendanceSessionView` class uses list comprehension to create a list of active students in the response.
+Server will start at `http://127.0.0.1:8000/`
 
+---
+
+### 🤖 Android App
+
+1. Open `android_app/` in **Android Studio**
+2. Connect your phone or use an emulator
+3. Build and run the app
+4. Ensure both phone and backend are on the same network (for API communication)
+
+---
+
+## 📦 Features in Progress (Optional Enhancements)
+
+* 📍 Add GPS fallback when Wi-Fi is unavailable
+* 📈 Export attendance logs (CSV, PDF)
+* 📲 Push notifications or alerts for missed attendance
+* 👨‍🏫 Teacher-side interface to manage attendance manually
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+## 🙋‍♂️ Contact
+
+Built with ❤️ by Hittanshu Bhanderi
+Connect via [LinkedIn](https://www.linkedin.com/in/hittanshubhanderi/)
+
+---
